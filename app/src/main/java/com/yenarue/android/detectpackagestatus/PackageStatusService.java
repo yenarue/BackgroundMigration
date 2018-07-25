@@ -55,7 +55,7 @@ public class PackageStatusService extends Service {
     private void createAndShowForegroundNotification(Service yourService, int notificationId) {
 
         final NotificationCompat.Builder builder = ChannelManager.getNotificationBuilder(yourService, ChannelManager.CHANNEL_SERVICE,
-                NotificationManagerCompat.IMPORTANCE_LOW); //Low importance prevent visual appearance for this notification channel on top
+                NotificationManagerCompat.IMPORTANCE_MIN); //Low importance prevent visual appearance for this notification channel on top
 
         Intent notificationIntent = new Intent(this, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
@@ -63,10 +63,9 @@ public class PackageStatusService extends Service {
         builder.setOngoing(true)
                 .setContentIntent(pendingIntent)
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
-                .setTicker("틱커텍스트")
-                .setSubText("서브텍스트")
-                .setContentTitle("컨텐트타이틀")
-                .setContentText("컨텐트텍스트");
+                .setSubText("패키지 상태를 감시하는 앱")
+                .setContentTitle("패키지 상태를 감시중입니다.")
+                .setContentText("감시하는게 싫으면 끄세요. 대신 앱 설치/삭제 관련 정보는 받을 수 없게 됩니다.");
 
         Notification notification = builder.build();
 
