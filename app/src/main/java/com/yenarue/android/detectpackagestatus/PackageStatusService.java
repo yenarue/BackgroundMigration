@@ -54,7 +54,7 @@ public class PackageStatusService extends Service {
 
     private void createAndShowForegroundNotification(Service yourService, int notificationId) {
 
-        final NotificationCompat.Builder builder = ChannelManager.getNotificationBuilder(yourService, ChannelManager.CHANNEL_SERVICE,
+        final NotificationCompat.Builder builder = ChannelManager.getInstance().getNotificationBuilder(yourService, ChannelManager.CHANNEL_SERVICE,
                 NotificationManagerCompat.IMPORTANCE_MIN); //Low importance prevent visual appearance for this notification channel on top
 
         Intent notificationIntent = new Intent(this, MainActivity.class);
