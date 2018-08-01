@@ -37,6 +37,13 @@ public class MainActivity extends AppCompatActivity {
 
         // 백그라운드 잡스케줄러 테스트
         Switch intervalJobSetSwitch = (Switch) this.findViewById(R.id.jobscheduler_interval_deadline_button);
+
+        JobInfo intervalJobInfo = jobScheduler.getPendingJob(SingleJobService.INTERVAL_JOB_ID);
+        if (intervalJobInfo != null) {
+            intervalJobSetSwitch.setChecked(true);
+//            intervalJobInfo.getMinLatencyMillis();
+        }
+
         intervalJobSetSwitch.setOnCheckedChangeListener(new Switch.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -60,6 +67,13 @@ public class MainActivity extends AppCompatActivity {
         });
 
         Switch periodicJobSwitch = (Switch) this.findViewById(R.id.jobscheduler_periodic_button);
+
+        JobInfo periodicJobInfo = jobScheduler.getPendingJob(SingleJobService.PERIODIC_JOB_ID);
+        if (periodicJobInfo != null) {
+            periodicJobSwitch.setChecked(true);
+//            periodicJobSwitch.getMinLatencyMillis();
+        }
+
         periodicJobSwitch.setOnCheckedChangeListener(new Switch.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -81,8 +95,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
         Switch jobSetSwitch = (Switch) this.findViewById(R.id.jobscheduler_button);
+
+        JobInfo jobInfo = jobScheduler.getPendingJob(SingleJobService.JOB_ID);
+        if (jobInfo != null) {
+            jobSetSwitch.setChecked(true);
+        }
+
         jobSetSwitch.setOnCheckedChangeListener(new Switch.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
