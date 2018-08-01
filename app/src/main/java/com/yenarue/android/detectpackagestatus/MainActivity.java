@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
                     JobInfo jobInfo = new JobInfo.Builder(SingleJobService.INTERVAL_JOB_ID, new ComponentName(context, SingleJobService.class))
                             .setMinimumLatency(3000L)
                             .setOverrideDeadline(5000L)
-//                        .setPersisted(true)
+                            .setPersisted(true)
                             .setRequiresCharging(true)
                             .build();
 
@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
                     Log.d("MainActivity", "Periodic Job button onClick!");
                     JobInfo jobInfo = new JobInfo.Builder(SingleJobService.PERIODIC_JOB_ID, new ComponentName(context, SingleJobService.class))
                             .setPeriodic(3000L, 3000L) //36000000L)
-//                        .setPersisted(true)
+                            .setPersisted(true)
                             .setRequiresCharging(true)
                             .build();
 
@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
                 if (isChecked) {
                     Log.d("MainActivity", "Job button onClick!");
                     JobInfo jobInfo = new JobInfo.Builder(SingleJobService.JOB_ID, new ComponentName(context, SingleJobService.class))
-//                        .setPersisted(true)
+                            .setPersisted(true)
                             .setRequiresCharging(true)
                             .build();
 
