@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
                             .setOverrideDeadline(5000L)
                             .setPersisted(true)
                             .setRequiresCharging(true)
+                            .setRequiresDeviceIdle(true)
                             .build();
 
                     int result = jobScheduler.schedule(jobInfo);
@@ -85,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
                             .setPeriodic(3000L, 3000L) //36000000L)
                             .setPersisted(true)
                             .setRequiresCharging(true)
+                            .setRequiresDeviceIdle(true)
                             .build();
 
                     int result = jobScheduler.schedule(jobInfo);
@@ -112,6 +114,7 @@ public class MainActivity extends AppCompatActivity {
                     JobInfo jobInfo = new JobInfo.Builder(SingleJobService.JOB_ID, new ComponentName(context, SingleJobService.class))
                             .setPersisted(true)
                             .setRequiresCharging(true)
+                            .setRequiresDeviceIdle(true)
                             .build();
 
                     int result = jobScheduler.schedule(jobInfo);
