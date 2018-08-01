@@ -1,23 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.yenarue.android.detectpackagestatus.MainActivity">
+    tools:context="com.yenarue.android.detectpackagestatus.MainActivity"
+    android:orientation="vertical">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:text="Hello World!" />
+
+    <Button android:id="@+id/foreground_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="포그라운드 서비스 등록하기 (ongoing노티)" />
 
     <Button android:id="@+id/noti_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="노티를 보내보자"/>
+        android:text="노티를 보내보자" />
 
-</android.support.constraint.ConstraintLayout>
+    <Switch android:id="@+id/jobscheduler_interval_deadline_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="잡스케쥴러에 잡을 셋해보자 (interval+deadline) "/>
+
+    <Switch android:id="@+id/jobscheduler_periodic_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="잡스케쥴러에 잡을 셋해보자 (Periodic)"/>
+
+    <Switch android:id="@+id/jobscheduler_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="잡스케쥴러에 잡을 셋해보자"/>
+
+    <TextView android:id="@+id/joblist_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

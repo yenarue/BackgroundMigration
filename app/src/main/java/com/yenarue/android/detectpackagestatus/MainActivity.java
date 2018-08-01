@@ -2,6 +2,9 @@ package com.yenarue.android.detectpackagestatus;
 
 import android.app.Notification;
 import android.app.PendingIntent;
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,23 +13,111 @@ import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.Switch;
+import android.widget.TextView;
+
+import com.yenarue.android.detectpackagestatus.util.Log;
 
 public class MainActivity extends AppCompatActivity {
+
+    private Context context;
+    private JobScheduler jobScheduler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Intent intent = new Intent(this, PackageStatusService.class);
-        startForegroundService(intent);
+        context = this;
+        jobScheduler = (JobScheduler) this.getSystemService(Context.JOB_SCHEDULER_SERVICE);
+
+        TextView joblistTextView = (TextView) this.findViewById(R.id.joblist_textview);
+        joblistTextView.setText(String.valueOf(jobScheduler.getAllPendingJobs()));
+
+        // 백그라운드 잡스케줄러 테스트
+        Switch intervalJobSetSwitch = (Switch) this.findViewById(R.id.jobscheduler_interval_deadline_button);
+        intervalJobSetSwitch.setOnCheckedChangeListener(new Switch.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                Context context = getApplicationContext();
+
+                if (isChecked) {
+                    Log.d("MainActivity", "Job button onClick!");
+                    JobInfo jobInfo = new JobInfo.Builder(SingleJobService.INTERVAL_JOB_ID, new ComponentName(context, SingleJobService.class))
+                            .setMinimumLatency(3000L)
+                            .setOverrideDeadline(5000L)
+//                        .setPersisted(true)
+                            .setRequiresCharging(true)
+                            .build();
+
+                    int result = jobScheduler.schedule(jobInfo);
+                    Log.d("MainActivity", "jobSchedule result=" + result);
+                } else {
+                    jobScheduler.cancel(SingleJobService.INTERVAL_JOB_ID);
+                }
+            }
+        });
+
+        Switch periodicJobSwitch = (Switch) this.findViewById(R.id.jobscheduler_periodic_button);
+        periodicJobSwitch.setOnCheckedChangeListener(new Switch.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                Context context = getApplicationContext();
+
+                if (isChecked) {
+                    Log.d("MainActivity", "Periodic Job button onClick!");
+                    JobInfo jobInfo = new JobInfo.Builder(SingleJobService.PERIODIC_JOB_ID, new ComponentName(context, SingleJobService.class))
+                            .setPeriodic(3000L, 3000L) //36000000L)
+//                        .setPersisted(true)
+                            .setRequiresCharging(true)
+                            .build();
+
+                    int result = jobScheduler.schedule(jobInfo);
+                    Log.d("MainActivity", "jobSchedule result=" + result);
+                } else {
+                    jobScheduler.cancel(SingleJobService.PERIODIC_JOB_ID);
+                }
+            }
+        });
+
+
+        Switch jobSetSwitch = (Switch) this.findViewById(R.id.jobscheduler_button);
+        jobSetSwitch.setOnCheckedChangeListener(new Switch.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                Context context = getApplicationContext();
+
+                if (isChecked) {
+                    Log.d("MainActivity", "Job button onClick!");
+                    JobInfo jobInfo = new JobInfo.Builder(SingleJobService.JOB_ID, new ComponentName(context, SingleJobService.class))
+//                        .setPersisted(true)
+                            .setRequiresCharging(true)
+                            .build();
+
+                    int result = jobScheduler.schedule(jobInfo);
+                    Log.d("MainActivity", "jobSchedule result=" + result);
+                } else {
+                    jobScheduler.cancel(SingleJobService.JOB_ID);
+                }
+            }
+        });
+
+        // 포그라운드 서비스 테스트
+        Button foregroundButton = (Button) this.findViewById(R.id.foreground_button);
+        foregroundButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, PackageStatusService.class);
+                startForegroundService(intent);
+            }
+        });
 
         // 일반 노티 테스트
         final Button notiButton = (Button) this.findViewById(R.id.noti_button);
         notiButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Context context = v.getContext();
                 final NotificationCompat.Builder builder = ChannelManager.getInstance().getNotificationBuilder(context,
                         ChannelManager.CHANNEL_A, NotificationManagerCompat.IMPORTANCE_DEFAULT);
 

@@ -27,12 +27,9 @@
             <!--</intent-filter>-->
         </receiver>
 
-        <receiver android:name=".PowerConnectionReceiver">
-            <intent-filter>
-                <action android:name="android.intent.action.ACTION_POWER_CONNECTED"/>
-                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED"/>
-            </intent-filter>
-        </receiver>
+        <service android:name=".SingleJobService"
+            android:permission="android.permission.BIND_JOB_SERVICE">
+        </service>
 
         <service android:name=".PackageStatusService"/>
     </application>
