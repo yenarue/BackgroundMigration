@@ -17,28 +17,26 @@ public class SingleJobService extends JobService {
     public boolean onStartJob(JobParameters params) {
         Log.d(TAG, "[" + params.getJobId() + "] onStartJob : " + this);
 
-//        Context context = getApplicationContext();
-//        JobInfo jobInfo = new JobInfo.Builder(1, new ComponentName(context, CollectUsageDataJobService.class))
-////                .setPeriodic(3000L) //36000000L)
-//                .setMinimumLatency(3000)
-//                .setRequiresCharging(true)
-////                        .setPersisted(true)
-//                .build();
-//
-//        JobScheduler jobScheduler = (JobScheduler) context.getSystemService(Context.JOB_SCHEDULER_SERVICE);
-//        jobScheduler.schedule(jobInfo);
+        // MainThread 에서 동작하므로 오래걸리는 작업이라면 Async로 태우기
 
         if (params.isOverrideDeadlineExpired()) {
             Log.d(TAG, "[" + params.getJobId() + "] isOverrideDeadlineExpired!");
+
+            // Job의 실행 조건이 만족하지 않은 상태에서 DeadLine에 걸려 실행된 경우
         }
 
         this.jobFinished(params, true);
+
         return true;
     }
 
     @Override
     public boolean onStopJob(JobParameters params) {
         Log.d(TAG, "[" + params.getJobId() + "] onStopJob");
+
+        // Job 실행 도중 실행 조건이 해제되었을 경우, onStopJob()이 호출됨.
+        // 예외처리 필요
+
         return false;
     }
 }
